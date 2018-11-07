@@ -1,0 +1,26 @@
+filebeat:
+    prospectors:
+      -
+        tags: ["int-inside", "log_type_1"]
+        paths:
+            - /var/log/redis/redis.log
+            - /var/log/redis/sentinel.log
+
+#      -
+#        tags: ["int-login", "log_type_1"]
+#        paths:
+#            - /DATA/logs/login/login.fpt.net.access.log
+
+filebeat.config.modules:
+  path: ${path.config}/modules.d/*.yml
+  reload.enabled: false
+
+setup.template.settings:
+  index.number_of_shards: 3
+
+output.logstash:
+  hosts: ["118.69.135.118:2513"]
+
+processors:
+  - drop_fields:
+     fields: ["beat.version","offset"]
